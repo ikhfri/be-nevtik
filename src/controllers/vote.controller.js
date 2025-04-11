@@ -18,17 +18,19 @@ export const addVote = async (req = request, res = response) => {
   try {
     const vote = await prisma.vote.create({
       data: {
-        userId: decoded.userId.id, 
-        candidateId: candidates
+        userId: decoded.userId.id,
+        candidateId: candidates,
       },
     });
 
     res.status(201).json({
       message: "success",
       data: vote,
+      succes: true,
     });
   } catch (error) {
     res.status(500).json({
+      success: false, // <-- Tambahin ini juga
       message: "Unsuccess",
       error: error.message,
     });
