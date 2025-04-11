@@ -1,0 +1,58 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["multiSchema"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  schemas  = ["nevtik2"]
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  divisi    String?  @default("")
+  name      String
+  password  String
+  role      Role     @default(USER)
+  vote      Vote?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@schema("nevtik2")
+}
+
+model Candidate {
+  id        String   @id @default(uuid())
+  name      String
+  vision    String
+  mission   String
+  divisi    String
+  kelas     String
+  jurusan   String
+  image     String?
+  votes     Vote[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@schema("nevtik2")
+}
+
+model Vote {
+  id          String    @id @default(cuid())
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId      String    @unique
+  candidate   Candidate @relation(fields: [candidateId], references: [id])
+  candidateId String
+  createdAt   DateTime  @default(now())
+
+  @@schema("nevtik2")
+}
+
+enum Role {
+  ADMIN
+  USER
+
+  @@schema("nevtik2")
+}
