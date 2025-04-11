@@ -22,8 +22,9 @@ export const isVoteValid = async (req = request, res = response, next) => {
 
     const [candidate, existingVote] = await Promise.all([
       prisma.candidate.findUnique({ where: { id: candidates } }),
-      prisma.vote.findUnique({ where: { userId } })
+      prisma.vote.findFirst({ where: { userId } }), // <--- ini dia
     ]);
+
 
     if (!candidate) return res.status(404).json({ message: "Candidate not found" });
     if (existingVote) return res.status(400).json({ message: "Vote hanya bisa sekali" }); 
