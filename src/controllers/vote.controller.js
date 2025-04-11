@@ -26,7 +26,7 @@ export const addVote = async (req = request, res = response) => {
     res.status(201).json({
       message: "success",
       data: vote,
-      succes: true,
+      success: true,
     });
   } catch (error) {
     res.status(500).json({
