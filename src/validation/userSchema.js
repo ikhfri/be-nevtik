@@ -1,8 +1,6 @@
 import { z } from "zod";
 
-export const divisi = z.enum(["Web Development", "ITNSA", "Cyber Security", "AI"], {
-  errorMap: () => ({ message: "Divisi tidak valid!" }),
-});
+export const divisi = z.string().min(1, "Divisi harus diisi").max(255, "Divisi terlalu panjang");
 
 
 export const role = z.enum(["USER", "ADMIN"], {
